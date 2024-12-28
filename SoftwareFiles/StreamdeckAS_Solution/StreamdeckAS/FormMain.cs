@@ -24,10 +24,12 @@ namespace StreamdeckAS
 
         private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            string input = port.ReadLine();
+            string input = port.ReadLine().Trim();
 
-            if (input.Trim() == "do")
+            if (input == "1")
                 Process.Start("chrome.exe", "https://randomuserolivero.altervista.org");
+            else if (input == "2")
+                Process.Start("D:\\Epic Games\\Launcher\\Portal\\Binaries\\Win64\\EpicGamesLauncher.exe");
         }
 
         private void btnTermina_Click(object sender, EventArgs e)
