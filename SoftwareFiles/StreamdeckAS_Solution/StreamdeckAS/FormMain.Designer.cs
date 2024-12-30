@@ -46,9 +46,10 @@
             // 
             // btnInizia
             // 
+            this.btnInizia.Enabled = false;
             this.btnInizia.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInizia.Location = new System.Drawing.Point(76, 185);
-            this.btnInizia.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnInizia.Margin = new System.Windows.Forms.Padding(4);
             this.btnInizia.Name = "btnInizia";
             this.btnInizia.Size = new System.Drawing.Size(240, 85);
             this.btnInizia.TabIndex = 1;
@@ -60,7 +61,7 @@
             // 
             this.btnTermina.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTermina.Location = new System.Drawing.Point(364, 185);
-            this.btnTermina.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTermina.Margin = new System.Windows.Forms.Padding(4);
             this.btnTermina.Name = "btnTermina";
             this.btnTermina.Size = new System.Drawing.Size(240, 85);
             this.btnTermina.TabIndex = 2;
@@ -76,7 +77,7 @@
             this.Controls.Add(this.btnTermina);
             this.Controls.Add(this.btnInizia);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMain";
             this.Text = "StreamdeckAS";
             this.Load += new System.EventHandler(this.FormMain_Load);

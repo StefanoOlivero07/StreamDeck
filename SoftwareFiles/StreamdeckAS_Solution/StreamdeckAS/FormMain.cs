@@ -26,6 +26,7 @@ namespace StreamdeckAS
         private void btnInizia_Click(object sender, EventArgs e)
         {
             isOn = true;
+            ManageButtons();
         }
 
         // Per terminare tutti i processi relativi ad un programma
@@ -38,20 +39,43 @@ namespace StreamdeckAS
         {
             string input = port.ReadLine().Trim();
 
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => UpdateUI(input)));
+            }
+            else
+            {
+                UpdateUI(input);
+            }
+        }
+
+        private void UpdateUI(string input)
+        {
             if (input == "acc")
                 isOn = !isOn;
-            else if (isOn)
+
+            if (isOn)
             {
                 if (input == "1")
                     Process.Start("chrome.exe", "https://randomuserolivero.altervista.org");
                 else if (input == "2")
                     Process.Start("notepad.exe");
             }
+
+            ManageButtons();
         }
+
 
         private void btnTermina_Click(object sender, EventArgs e)
         {
             isOn = false;
+            ManageButtons();
+        }
+
+        private void ManageButtons()
+        {
+            btnInizia.Enabled = !isOn;
+            btnTermina.Enabled = isOn;
         }
     }
 }
