@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace StreamdeckAS
 {
@@ -9,6 +10,8 @@ namespace StreamdeckAS
     {
         SerialPort port;
         bool isOn = false;
+        string filePathA = "";
+        string filePathB = "";
 
         public FormMain()
         {
@@ -20,7 +23,15 @@ namespace StreamdeckAS
             port.DataReceived += Port_DataReceived;
             port.Open();
             MessageBox.Show("Connessione stabilita");
+            NotConfiguredLabel(lblBtnA);
+            NotConfiguredLabel(lblBtnB);
+        }
 
+        private void NotConfiguredLabel(Label lbl)
+        {
+            lbl.Text = "Not config";
+            lbl.ForeColor = Color.Red;
+            lbl.TextAlign = ContentAlignment.MiddleCenter;
         }
 
         private void btnInizia_Click(object sender, EventArgs e)
@@ -56,10 +67,10 @@ namespace StreamdeckAS
 
             if (isOn)
             {
-                if (input == "1")
-                    Process.Start("chrome.exe", "https://randomuserolivero.altervista.org");
-                else if (input == "2")
-                    Process.Start("notepad.exe");
+                if (input == "1" && filePathA != "")
+                    Process.Start(filePathA);
+                else if (input == "2" && filePathB != "")
+                    Process.Start(filePathB);
             }
 
             ManageButtons();
@@ -76,6 +87,40 @@ namespace StreamdeckAS
         {
             btnInizia.Enabled = !isOn;
             btnTermina.Enabled = isOn;
+        }
+
+        private void btnProgram_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogMain.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialogMain.FileName;
+                Process.Start(filePath);
+            }
+        }
+
+        private void btnCambiaA_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogMain.ShowDialog() == DialogResult.OK)
+            {
+                filePathA = openFileDialogMain.FileName;
+                ConfiguredLabel(lblBtnA);
+            }
+        }
+
+        private void btnCambiaB_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogMain.ShowDialog() == DialogResult.OK)
+            {
+                filePathB = openFileDialogMain.FileName;
+                ConfiguredLabel(lblBtnB);
+            }
+        }
+
+        private void ConfiguredLabel(Label lbl)
+        {
+            lbl.Text = "Config";
+            lbl.ForeColor = Color.Green;
+            lbl.TextAlign = ContentAlignment.MiddleCenter;
         }
     }
 }
