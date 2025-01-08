@@ -1,7 +1,7 @@
 #define LED 4
 #define BTNONOFF 3
-#define BTN1 7
-#define BTN2 6
+#define BTN1 13
+#define BTN2 12
 
 void setup() {
   Serial.begin(9600);

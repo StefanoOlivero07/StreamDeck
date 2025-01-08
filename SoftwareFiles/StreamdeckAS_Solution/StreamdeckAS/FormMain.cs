@@ -56,7 +56,7 @@ namespace StreamdeckAS
             }
             else
             {
-                UpdateUI(input);
+                //UpdateUI(input);
             }
         }
 
