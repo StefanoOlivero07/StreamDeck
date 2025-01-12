@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 
 namespace StreamdeckAS
 {
@@ -12,6 +13,8 @@ namespace StreamdeckAS
         bool isOn = false;
         string filePathA = "";
         string filePathB = "";
+        string filePathC = "";
+        string filePathD = "";
 
         public FormMain()
         {
@@ -25,6 +28,41 @@ namespace StreamdeckAS
             MessageBox.Show("Connessione stabilita");
             NotConfiguredLabel(lblBtnA);
             NotConfiguredLabel(lblBtnB);
+            NotConfiguredLabel(lblBtnC);
+            NotConfiguredLabel(lblBtnD);
+            LoadConfiguration();
+        }
+
+        private void LoadConfiguration()
+        {
+            StreamReader sr = new StreamReader("configuration.csv");
+            string[] s;
+
+            while (!sr.EndOfStream)
+            {
+                s = sr.ReadLine().Trim().Split(';');
+                if (s.Length >= 1 && s[0] != "")
+                {
+                    filePathA = s[0];
+                    ConfiguredLabel(lblBtnA);
+                }
+                if (s.Length >= 2 && s[1] != "")
+                {
+                    filePathB = s[1];
+                    ConfiguredLabel(lblBtnB);
+                }
+                if (s.Length >= 3 && s[2] != "")
+                {
+                    filePathC = s[2];
+                    ConfiguredLabel(lblBtnC);
+                }
+                if (s.Length >= 4 && s[3] != "")
+                {
+                    filePathD = s[3];
+                    ConfiguredLabel(lblBtnD);
+                }
+            }
+            sr.Close();
         }
 
         private void NotConfiguredLabel(Label lbl)
@@ -71,6 +109,10 @@ namespace StreamdeckAS
                     Process.Start(filePathA);
                 else if (input == "2" && filePathB != "")
                     Process.Start(filePathB);
+                else if (input == "3" && filePathC != "")
+                    Process.Start(filePathC);
+                else if (input == "4" && filePathD != "")
+                    Process.Start(filePathD);
             }
 
             ManageButtons();
@@ -105,6 +147,7 @@ namespace StreamdeckAS
                 filePathA = openFileDialogMain.FileName;
                 ConfiguredLabel(lblBtnA);
             }
+            SalvaImpostazioni();
         }
 
         private void btnCambiaB_Click(object sender, EventArgs e)
@@ -114,6 +157,7 @@ namespace StreamdeckAS
                 filePathB = openFileDialogMain.FileName;
                 ConfiguredLabel(lblBtnB);
             }
+            SalvaImpostazioni();
         }
 
         private void ConfiguredLabel(Label lbl)
@@ -121,6 +165,41 @@ namespace StreamdeckAS
             lbl.Text = "Config";
             lbl.ForeColor = Color.Green;
             lbl.TextAlign = ContentAlignment.MiddleCenter;
+        }
+
+        private void btnCambiaC_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogMain.ShowDialog() == DialogResult.OK)
+            {
+                filePathC = openFileDialogMain.FileName;
+                ConfiguredLabel(lblBtnC);
+            }
+            SalvaImpostazioni();
+        }
+
+        private void btnCambiaD_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogMain.ShowDialog() == DialogResult.OK)
+            {
+                filePathD = openFileDialogMain.FileName;
+                ConfiguredLabel(lblBtnD);
+            }
+            SalvaImpostazioni();
+        }
+
+        private void SalvaImpostazioni()
+        {
+            StreamWriter sw = new StreamWriter("configuration.csv");
+
+            if (lblBtnA.Text == "Config")
+                sw.Write(filePathA + ";");
+            if (lblBtnB.Text == "Config")
+                sw.Write(filePathB + ";");
+            if (lblBtnC.Text == "Config")
+                sw.Write(filePathC + ";");
+            if (lblBtnD.Text == "Config")
+                sw.Write(filePathD + ";");
+            sw.Close();
         }
     }
 }
